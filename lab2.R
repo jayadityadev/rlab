@@ -10,25 +10,25 @@ tax_rate <- 0.30
 profit_after_tax <- profit * (1 - tax_rate)
 
 # Profit margin for each month
-profit_margin <- (profit_after_tax / revenue) * 100
+profit_margin <- round(profit_after_tax/revenue, 2) * 100
+profit_margin <- paste(profit_margin, "%")
 
 # Good Months (profit after tax > yearly mean)
-mean_profit_after_tax <- mean(profit_after_tax)
-good_months <- profit_after_tax > mean_profit_after_tax
+mean_profit <- mean(profit_after_tax)
+good_months <- profit_after_tax > mean_profit
 
 # Bad Months (profit after tax < yearly mean)
 bad_months <- profit_after_tax < mean_profit_after_tax
 
 # Best month
-best_month <- which.max(profit_after_tax)
+best_month <- max(profit_after_tax)
 
 # Worst month
-worst_month <- which.min(profit_after_tax)
+worst_month <- min(profit_after_tax)
 
 # Results in $1000 with no decimals
 profit_k <- round(profit / 1000)
 profit_after_tax_k <- round(profit_after_tax / 1000)
-profit_margin_perc <- round(profit_margin)
 
 # Display results
 print("Profit for each month (in $K):")
@@ -36,16 +36,16 @@ print(profit_k)
 print("Profit after tax for each month (in $K):")
 print(profit_after_tax_k)
 print("Profit margin for each month (in %):")
-print(profit_margin_perc)
+print(profit_margin)
 print("Good months (TRUE):")
 print(good_months)
 print("Bad months (TRUE):")
 print(bad_months)
-print("Bes month:")
+print("Best month:")
 print(best_month)
-print("Profit for each month:")
+print("Worst month:")
 print(worst_month)
 
 # Generate CSV file
-data <- data.frame(revenue, expenses, profit_k, profit_after_tax_k, profit_margin_perc)
+data <- data.frame(revenue, expenses, profit_k, profit_after_tax_k, profit_margin)
 write.csv(data, "financial_statement.csv")
